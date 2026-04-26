@@ -1,0 +1,441 @@
+/* --- 1. BASE STYLES & VARIABLES --- */
+:root {
+    --bg-color: #000;
+    --accent-color: #00ffff; /* Neon Cyan */
+    --text-color: #e0e0e0;
+    --border-color: #333;
+    --hallucination-color: #ff0055;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Courier New', monospace;
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+/* --- 2. FIXED BACKGROUND LAYERS --- */
+/* --- SCROLLYTELLING BACKGROUND BASE --- */
+.fixed-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1; /* Keeps the images behind your text */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0; /* Default to hidden so JS can fade them in */
+    transition: opacity 0.6s ease-in-out; /* Smooth fade transitions */
+}
+
+/* Ensure the starting background is visible on load */
+#glitchBg {
+    opacity: 1;
+}
+
+.chatgpt-layer { background-image: url("Chatgpt.png"); }
+.gemini-layer  { background-image: url("Gemini.png"); }
+.claude-layer  { background-image: url("claude.png"); }
+.glitch-layer  { background-image: url("glitch.png"); filter: grayscale(1) contrast(1.5); }
+.ide-layer     { background-image: url("ide-interface.png"); }
+.navy-layer { background-color: #00152e; /* Deep navy blue */ }
+.iceberg1-layer { background-image: url("iceberg_1.png"); background-size: contain; background-position: center; }
+.black-layer { background-color: #000000; }
+.iceberg2-layer { background-image: url("iceberg_2.png"); background-size: cover; background-position: center; }
+
+.equation-layer {
+    background-color: #000;
+    background-image: radial-gradient(var(--accent-color) 0.5px, transparent 0.5px);
+    background-size: 30px 30px;
+}
+
+.iceberg-layer {
+    background-image: url("iceberg.png");
+    background-position: top center;
+    background-size: 150%; /* Starts cropped for Section 4 */
+}
+
+/* Global state for the final reveal */
+.outro-active .iceberg-layer {
+    background-size: cover;
+    background-position: center;
+    opacity: 1 !important;
+}
+
+/* --- 3. GLOBAL LAYOUT CONTAINERS --- */
+.section {
+    min-height: 100vh;
+    padding: 10vh 5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    box-shadow: inset 0 0 150px rgba(0,0,0,1);
+}
+
+.visual-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.narrative-center {
+    width: 30%;
+    padding: 0 20px;
+}
+
+.narrative-center p {
+    margin-bottom: 50vh; /* Space for scrolling triggers */
+    font-size: 1.1rem;
+}
+
+.visual-side {
+    width: 32%;
+    height: 100%;
+}
+
+.sticky-box {
+    position: sticky;
+    top: 15vh;
+    padding: 40px;
+    min-height: 60vh;
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.caption {
+    font-size: 0.8rem;
+    color: #666;
+    margin-top: 15px;
+}
+
+/* --- 4. SECTION SPECIFIC STYLES --- */
+
+/* Section 1: Intro */
+.intro { text-align: center; }
+.intro h1 { font-size: 3.5rem; letter-spacing: -2px; color: var(--accent-color); }
+
+/* Section 2: AI Code Flicker Visuals */
+.code-flicker-placeholder {
+    width: 100%;
+    height: 180px;
+    background: rgba(10, 10, 10, 0.8);
+    border: 1px solid var(--accent-color);
+    border-radius: 4px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.code-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.code-list span {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.85rem;
+    color: var(--accent-color);
+    opacity: 0;
+    /* This creates the continuous flickering animation */
+    animation: codeFlicker 4s infinite;
+}
+
+/* Stagger the lines so they appear one after another */
+.code-list span:nth-child(1) { animation-delay: 0s; }
+.code-list span:nth-child(2) { animation-delay: 1.2s; }
+.code-list span:nth-child(3) { animation-delay: 2.4s; }
+
+@keyframes codeFlicker {
+    0%, 10% { opacity: 0; transform: translateX(-10px); }
+    15%, 85% { opacity: 1; transform: translateX(0); }
+    90%, 100% { opacity: 0; transform: translateX(10px); }
+}
+
+/* Section 3: Token Animations & Temperature */
+.token-transition-container {
+    position: relative;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.token-word, .token-split, .token-vector {
+    position: absolute;
+    display: flex;
+    gap: 8px;
+    opacity: 0;
+}
+
+.tok-1 { color: #ff0055; border: 1px solid #ff0055; padding: 5px 10px; background: rgba(255,0,85,0.1); }
+.tok-2 { color: var(--accent-color); border: 1px solid var(--accent-color); padding: 5px 10px; background: rgba(0,255,255,0.1); }
+
+/* Vertical Heat Slider */
+.vertical-slider-wrapper {
+    position: relative;
+    height: 300px;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+.heat-slider {
+    -webkit-appearance: none;
+    width: 300px;
+    height: 10px;
+    background: transparent;
+    transform: rotate(-90deg);
+    transform-origin: center;
+    position: absolute;
+    top: 145px;
+    z-index: 10;
+    cursor: pointer;
+}
+
+.heat-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 20px;
+    width: 40px;
+    background: #fff;
+    border: 2px solid var(--accent-color);
+    box-shadow: 0 0 10px var(--accent-color);
+}
+
+.heat-gradient {
+    position: absolute;
+    width: 15px;
+    height: 100%;
+    background: linear-gradient(to top, #39FF14, #fbff00, #ff0055);
+    border-radius: 10px;
+    border: 1px solid #333;
+}
+
+.output-monitor {
+    flex: 1;
+    min-width: 250px;
+    background: rgba(10, 10, 10, 0.9);
+    padding: 20px;
+    border-left: 2px solid var(--accent-color);
+    text-align: left;
+}
+
+.temp-text { font-size: 1.2rem; transition: all 0.3s ease; }
+.hallucinate { color: var(--hallucination-color); text-shadow: 2px 2px 5px rgba(255, 0, 85, 0.5); filter: blur(0.5px); }
+
+/* --- SECTION 4: CHAOS ANIMATIONS ON LEFT --- */
+.chaos-side {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+}
+
+.chaos-overlay {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 500px;
+}
+
+/* Base styles for the popups */
+.slack-popup, .error-log, .code-window {
+    position: absolute;
+    opacity: 0;
+    transform: translateY(30px) scale(0.9); /* Starts slightly lower and smaller */
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Bouncy pop-in effect */
+    padding: 12px 18px;
+    border-radius: 6px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.85rem;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+    max-width: 260px;
+    z-index: 10;
+}
+
+.slack-popup { background: #4a154b; color: white; border-left: 5px solid #e01e5a; }
+.slack-popup.alert { border-left-color: #ffcc00; }
+.error-log { background: #2b0000; color: #ff5555; border: 1px solid #ff0000; }
+.code-window { background: #1e1e1e; color: #d4d4d4; border-top: 25px solid #333; }
+
+/* Scatter coordinates to make it look haphazard but contained */
+.chaos-overlay > div:nth-child(1) { top: 5%;  left: 5%;  z-index: 11; }
+.chaos-overlay > div:nth-child(2) { top: 18%; left: 35%; z-index: 12; }
+.chaos-overlay > div:nth-child(3) { top: 32%; left: 0%;  z-index: 13; }
+.chaos-overlay > div:nth-child(4) { top: 45%; left: 25%; z-index: 14; }
+.chaos-overlay > div:nth-child(5) { top: 60%; left: 5%;  z-index: 15; }
+.chaos-overlay > div:nth-child(6) { top: 72%; left: 40%; z-index: 16; }
+.chaos-overlay > div:nth-child(7) { top: 85%; left: 10%; z-index: 17; }
+.chaos-overlay > div:nth-child(8) { top: 25%; left: -10%; z-index: 18; transform: rotate(-5deg); }
+
+/* Section 5: Puzzle Split */
+.split-view { display: flex; width: 100%; height: 60vh; }
+.left-side, .right-side { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+
+.repetitive-code .code-line {
+    font-size: 0.8rem;
+    color: #555;
+    animation: typeRepeat 1s infinite alternate;
+}
+
+.piece {
+    width: 40px; height: 40px;
+    background: var(--accent-color);
+    margin: 5px;
+    animation: solvePuzzle 3s infinite;
+}
+
+/* --- 5. UI COMPONENTS & UTILITIES --- */
+.cybr-btn {
+    background: transparent;
+    color: #fff;
+    border: 1px solid #fff;
+    padding: 15px 30px;
+    font-family: inherit;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: 0.3s;
+}
+
+.cybr-btn:hover { background: #fff; color: #000; }
+
+.fade {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease-out;
+}
+
+.fade.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- 6. KEYFRAME ANIMATIONS --- */
+@keyframes formModel {
+    0% { clip-path: circle(0% at 50% 50%); opacity: 0; }
+    20% { opacity: 0.8; }
+    100% { clip-path: circle(100% at 50% 50%); opacity: 1; }
+}
+
+@keyframes phase1 { 0%, 25% { opacity: 1; transform: scale(1); } 30%, 100% { opacity: 0; transform: scale(0.95); } }
+@keyframes phase2 { 0%, 25% { opacity: 0; transform: scale(1.05); } 30%, 60% { opacity: 1; transform: scale(1); } 65%, 100% { opacity: 0; transform: scale(0.95); } }
+@keyframes phase3 { 0%, 60% { opacity: 0; transform: scale(1.05); } 65%, 95% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(0.95); } }
+
+@keyframes typeRepeat {
+    from { opacity: 0.2; }
+    to { opacity: 1; }
+}
+
+@keyframes solvePuzzle {
+    0% { transform: translate(-20px, -20px) rotate(0deg); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translate(0, 0) rotate(360deg); }
+}
+
+/* Triggered by JS class adding */
+.tokens-interactive.show .token-word { animation: phase1 6s infinite; }
+.tokens-interactive.show .token-split { animation: phase2 6s infinite; }
+.tokens-interactive.show .token-vector { animation: phase3 6s infinite; }
+
+/* --- SECTION 5: SPLIT VIEW & PUZZLE ANIMATIONS --- */
+.split-view {
+    display: flex;
+    width: 100%;
+    min-height: 50vh;
+    border: 1px solid var(--border-color);
+    background: #050505;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 2rem;
+}
+
+.left-side, .right-side {
+    flex: 1;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.left-side.repetitive-code {
+    border-right: 1px solid var(--border-color);
+    background: rgba(0, 20, 0, 0.4);
+    align-items: flex-start;
+}
+
+.code-line {
+    font-family: 'Courier New', Courier, monospace;
+    color: #00ff00;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: all 0.4s ease-out;
+    margin: 4px 0; /* Reduced from 10px so all 10 lines fit */
+    font-size: 0.75rem; /* Shrunk slightly to ensure it doesn't wrap */
+}
+
+.puzzle-board {
+    width: 150px;
+    height: 150px;
+    border: 2px dashed var(--accent-color);
+    position: relative;
+    margin-top: 20px;
+}
+
+.piece {
+    width: 70px;
+    height: 70px;
+    background: var(--accent-color);
+    position: absolute;
+    opacity: 0;
+    transition: all 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Initial piece positions (floating around) */
+.piece.p1 { top: -100px; left: -80px; transform: rotate(-15deg); }
+.piece.p2 { top: -80px; right: -120px; transform: rotate(25deg); }
+
+/* Animation Triggers (Activated by JS Observer) */
+.puzzle-section.trigger-anim .code-line {
+    opacity: 1;
+    transform: translateX(0);
+}
+/* Animation Triggers (Activated by JS Observer) */
+.puzzle-section.trigger-anim .code-line {
+    opacity: 1;
+    transform: translateX(0);
+}
+.puzzle-section.trigger-anim .code-line:nth-child(1) { transition-delay: 0.1s; }
+.puzzle-section.trigger-anim .code-line:nth-child(2) { transition-delay: 0.2s; }
+.puzzle-section.trigger-anim .code-line:nth-child(3) { transition-delay: 0.3s; }
+.puzzle-section.trigger-anim .code-line:nth-child(4) { transition-delay: 0.4s; }
+.puzzle-section.trigger-anim .code-line:nth-child(5) { transition-delay: 0.5s; }
+.puzzle-section.trigger-anim .code-line:nth-child(6) { transition-delay: 0.6s; }
+.puzzle-section.trigger-anim .code-line:nth-child(7) { transition-delay: 0.7s; }
+.puzzle-section.trigger-anim .code-line:nth-child(8) { transition-delay: 0.8s; }
+.puzzle-section.trigger-anim .code-line:nth-child(9) { transition-delay: 0.9s; }
+.puzzle-section.trigger-anim .code-line:nth-child(10) { transition-delay: 1.0s; }
+
+/* Trigger the puzzle pieces right after the code finishes appearing */
+.puzzle-section.trigger-anim .piece.p1 { top: 5px; left: 5px; opacity: 1; transform: rotate(0); transition-delay: 1.3s; }
+.puzzle-section.trigger-anim .piece.p2 { top: 5px; left: 75px; opacity: 1; transform: rotate(0); transition-delay: 1.8s; }
