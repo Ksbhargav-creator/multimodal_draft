@@ -72,7 +72,7 @@
 
     <div class="narrative-center">
       <h2 data-bg="navy">The Mechanics of Generation</h2>
-      <p data-bg="navy">If AI is "just" a text generator, how does it produce actual art or eloquent essays? The magic lies in two areas: the scale of its Tokens and the calibration of its Temperature.
+      <p data-bg="navy">If AI is "just" a text generator, how does it produce actual art or eloquent essays? The magic lies in two areas: the scale of its dataset and the calibration of its Temperature.
       Computers cannot read words; they read numbers. When you feed a prompt into an LLM, the first thing it does is Tokenization. It breaks your text into small chunks—sometimes whole words, sometimes just a few characters. For example, the word "Engineering" might be broken into two tokens: <span style="color: #ff0055; font-weight: bold;">Engin</span> and <span style="color: var(--accent-color); font-weight: bold;">eering</span>.</p>
     </div>
 
@@ -106,8 +106,9 @@
 
     <div class="narrative-center">
       <h2 data-bg="navy">The Geometry of Meaning</h2>
-      <p data-bg="navy">These tokens are converted into vectors—lists of numbers representing "meaning." If AI always picked the #1 result, it would be a boring echo. This is where <strong>Temperature</strong> comes in.
-      Use the dial on the right to adjust the randomness. At low heat, the AI is a logical engineer. As you push it into the red, the "creativity" turns into digital fever dreams.</p>
+      <p data-bg="navy">These tokens are converted into vectors—lists of numbers representing "meaning." If AI always picked the #1 result, it would be just echoing the dataset. This is where <strong>Temperature</strong> comes in.
+      Use the dial on the right to adjust the randomness. At low heat, the AI echoes the most repeated sentence in the dataset. As you push the dial upward, you get varied and random responses that are still cohesive. This is the main culprit behind an LLM's "creativity".
+      But push it too much and you get incoherent nonsense.</p>
     </div>
 
     <div class="visual-side">
@@ -146,7 +147,7 @@
 
     <div class="narrative-center">
       <h2 data-bg="iceberg1">Why LLMs won't replace Software Engineers</h2>
-      <p data-bg="black">Now that we’ve established that LLMs are statistical engines given life by randomness, we can address the second part of the argument: Why the work of a Software Engineer is irreplaceable. If our job was simply sitting around typing code, we would have been replaced years ago. But engineering is a broad, complex discipline. While the "Startup" world focuses on building new solutions from scratch, the vast majority of engineers spend their lives maintaining and improving existing systems.
+      <p data-bg="iceberg1">Now that we’ve established that LLMs are statistical engines given life by randomness, we can address the second part of the argument: Why the work of a Software Engineer is irreplaceable. If our job was simply sitting around typing code, we would have been replaced years ago. But engineering is a broad, complex discipline. While the "Startup" world focuses on building new solutions from scratch, the vast majority of engineers spend their lives maintaining and improving existing systems.
       This is where it gets hard—way harder than it looks. Maintaining an enterprise system means deciphering vague documentation left by predecessors, managing millions of active users, and debugging 100,000+ lines of legacy code under tight deadlines. It means navigating the friction of product managers who want to build a Claude competitor over a weekend to save on API costs. A single misplaced character in a massive codebase can open a backdoor to a user’s database. That level of high-stakes, contextual troubleshooting cannot be automated by a probability distribution.</p>
     </div>
 
@@ -160,7 +161,7 @@
       Academic scrutiny has begun to pierce the veil of the "AI-will-replace-everyone" narrative, revealing significant structural gaps that only human oversight can bridge. In their paper, <strong>"Bad Vibes: AI-Generated Code is Vulnerable, Researchers Warn,"</strong> Georgia Tech researchers found that "vibe coding"—the reliance on prompt-generated code without deep architectural review—resulted in over <strong>70 critical bugs</strong>. This highlights the hidden cost of convenience: a rapid injection of security debt that AI simply doesn't "feel."
     </p>
     <p data-bg="vibe-coding">
-      This failure in reasoning is further corroborated by Zhang et al. in <strong>"An Empirical Study on Failures in Automated Issue Solving."</strong> After analyzing 150 failed attempts by AI agents to resolve real-world bugs, the researchers found that the majority of failures were caused by <strong>"cognitive deadlocks"</strong> and <strong>flawed logic control flows</strong>. These findings underscore a vital truth: while LLMs can mimic the syntax of a solution, they frequently collapse when faced with the causal complexity that human engineers navigate daily.
+      This failure in reasoning is further corroborated by Simiao Liu et al. in <strong>"An Empirical Study on Failures in Automated Issue Solving."</strong> After analyzing 150 failed attempts by AI agents to resolve real-world bugs, the researchers found that the majority of failures were caused by <strong>"cognitive deadlocks"</strong> and <strong>flawed logic control flows</strong>. These findings underscore a vital truth: while LLMs can mimic the syntax of a solution, they frequently collapse when faced with the causal complexity that human engineers navigate daily.
     </p>
   </div>
 </section>
@@ -202,8 +203,8 @@
 </section>
 
 <section class="section outro fade">
-  <h2>AI is a Tool. Engineers are the System.</h2>
-  <p>History is full of "obsolescence" scares that never quite manifested. Typewriters didn't replace clerks; chainsaws didn't replace woodcutters; and calculators didn't replace accountants. These tools simply shifted the focus, allowing professionals to spend more time on the finer details of their craft. LLMs are a tool—an incredibly powerful one—but a tool nonetheless. Our task is to master it. Of course, if true AGI is ever realized, the conversation changes entirely—but at that point, we won't be worried about our jobs; we’ll be worried about our lives. Until then, the "Human Variable" remains the most critical component of the stack.</p>
+  <h2 data-bg="iceberg2">AI is a Tool. Engineers are the System.</h2>
+  <p data-bg="iceberg2">History is full of "obsolescence" scares that never quite manifested. Typewriters didn't replace clerks; chainsaws didn't replace woodcutters; and calculators didn't replace accountants. These tools simply shifted the focus, allowing professionals to spend more time on the finer details of their craft. LLMs are a tool—an incredibly powerful one—but a tool nonetheless. Our task is to master it. Of course, if true AGI is ever realized, the conversation changes entirely—but at that point, we won't be worried about our jobs; we’ll be worried about our lives. Until then, the "Human Variable" remains the most critical component of the stack.</p>
   <button class="cybr-btn" onclick="location.reload()">REBOOT SYSTEM</button>
 </section>
 

@@ -126,8 +126,9 @@ body {
 /* --- 4. SECTION SPECIFIC STYLES --- */
 
 /* Section 1: Intro */
-.intro { text-align: center; }
-.intro h1 { font-size: 3.5rem; letter-spacing: -2px; color: var(--accent-color); }
+.intro { text-align: center;
+color: red}
+.intro h1 { font-size: 3.5rem; letter-spacing: -2px; color: red; }
 
 /* Section 2: AI Code Flicker Visuals */
 .code-flicker-placeholder {
