@@ -42,7 +42,7 @@ body {
 .gemini-layer  { background-image: url("Gemini.png"); }
 .claude-layer  { background-image: url("claude.png"); }
 .glitch-layer  { background-image: url("glitch.png"); filter: grayscale(1) contrast(1.5); }
-.ide-layer     { background-image: url("ide-interface.png"); }
+.ide-layer     { background-image: url("IDE-interface.png"); }
 .navy-layer { background-color: #00152e; /* Deep navy blue */ }
 .iceberg1-layer { background-image: url("iceberg_1.png"); background-size: contain; background-position: center; }
 .black-layer { background-color: #000000; }
